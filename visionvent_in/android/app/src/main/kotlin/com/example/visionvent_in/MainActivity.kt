@@ -1,4 +1,4 @@
-package com.example.visionvent_in
+package com.example.visionvent
 
 import io.flutter.embedding.android.FlutterActivity
 
