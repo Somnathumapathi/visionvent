@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:visionvent_in/features/auth/screens/signinPage.dart';
+import 'package:visionvent_in/features/auth/screens/signupPage.dart';
+import 'package:visionvent_in/features/home/homePage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,8 +14,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  MyApp({super.key});
+  final uid = FirebaseAuth.instance.currentUser?.uid;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SigninPage(),
+      home: uid != null ? HomePage() : const SigninPage(),
     );
   }
 }
