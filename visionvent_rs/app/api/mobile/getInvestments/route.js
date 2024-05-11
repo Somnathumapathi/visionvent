@@ -7,27 +7,36 @@ export async function POST(request) {
     await connectToDb();
 
     const body = await request.json();
-    if (body.code !== "q!w@e#rt%y^u&")
-        return NextResponse.json({
-            message: "Authentication required!!!"
-        }, {
-            status: 401
-        })
+    if (body.code)
+        if (body.code !== "q!w@e#rt%y^u&")
+            return NextResponse.json({
+                msg: "Authentication required!!!"
+            }, {
+                status: 400
+            })
     const investmentIds = body.investments;
     if (investmentIds.length === 0)
         return NextResponse.json({
-            message: "No investments found!!!"
+            msg: "No investments found!!!"
         }, {
-            status: 201
+            status: 400
         })
     let investments = []
-    investmentIds.map(async (iid) => {
-        const investment = await Investments.find({ _id: iid })
-        investments.push(investment)
-    })
-    return NextResponse.json({
-        investments: investments,
-    }, {
-        status: 201
-    })
+    try {
+        investmentIds.map(async (iid) => {
+            const investment = await Investments.find({ _id: iid })
+            investments.push(investment)
+        })
+        return NextResponse.json({
+            investments: investments,
+        }, {
+            status: 200
+        })
+    } catch (error) {
+        return NextResponse.json({
+            error: error.message
+        }, {
+            status: 500
+        })
+    }
 }
