@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visionvent_in/features/auth/screens/signinPage.dart';
 import 'package:visionvent_in/features/auth/services/authService.dart';
 import 'package:visionvent_in/providers/userProvider.dart';
+import 'dart:math' as math;
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -10,6 +11,14 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(currentUserProvider).user;
+    final List<Color> allowedColors = [
+      Colors.red,
+      Colors.green,
+      Colors.blue,
+      Colors.orange,
+      Colors.purple,
+      Colors.yellow,
+    ];
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [
@@ -37,7 +46,26 @@ class ProfilePage extends ConsumerWidget {
           SizedBox(
             height: 10,
           ),
-          Text("Domains: ${user!.domains}"),
+          Text("Domains:"),
+          GridView.builder(
+              shrinkWrap: true,
+              itemCount: user.domains.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 5, mainAxisSpacing: 0),
+              itemBuilder: (context, index) {
+                final data = user.domains[index];
+                final randomColor = allowedColors[index % allowedColors.length];
+
+                return Chip(
+                  padding: EdgeInsets.all(1),
+                  label: Text(
+                    data,
+                    style: TextStyle(fontSize: 10, color: Colors.white),
+                  ),
+                  backgroundColor: randomColor,
+                  side: BorderSide.none,
+                );
+              }),
           SizedBox(
             height: 10,
           ),
