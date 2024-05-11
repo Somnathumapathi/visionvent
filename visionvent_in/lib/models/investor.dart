@@ -45,4 +45,22 @@ class Investor {
 
   factory Investor.fromJson(String source) =>
       Investor.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  Investor copyWith({
+    String? id,
+    String? uid,
+    String? name,
+    String? email,
+    List<String>? investments,
+    List<String>? domains,
+  }) {
+    return Investor(
+      id: id ?? this.id,
+      uid: uid ?? this.uid,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      investments: investments ?? this.investments,
+      domains: domains ?? this.domains,
+    );
+  }
 }

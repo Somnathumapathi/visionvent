@@ -11,6 +11,10 @@ class CurrentUserNotifier extends ChangeNotifier {
     print("Investor Set => ${user?.id}");
     notifyListeners();
   }
+
+  setInvestments(List<String> investmenst) {
+    user = user!.copyWith(investments: investmenst);
+  }
 }
 
 final currentUserProvider =

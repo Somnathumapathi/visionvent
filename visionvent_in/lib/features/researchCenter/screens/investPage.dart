@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:visionvent_in/features/researchCenter/Services/investmentServices.dart';
 import 'package:visionvent_in/widgets/textField.dart';
 
-class InvestPage extends StatefulWidget {
+class InvestPage extends ConsumerStatefulWidget {
   const InvestPage({super.key});
 
   @override
-  State<InvestPage> createState() => _InvestPageState();
+  ConsumerState<InvestPage> createState() => _InvestPageState();
 }
 
-class _InvestPageState extends State<InvestPage> {
+class _InvestPageState extends ConsumerState<InvestPage> {
   final _amountController = TextEditingController();
   bool _isAuthenticated = false;
 
@@ -54,7 +56,16 @@ class _InvestPageState extends State<InvestPage> {
               height: 15,
             ),
             _isAuthenticated
-                ? ElevatedButton(onPressed: () {}, child: Text('Invest'))
+                ? ElevatedButton(
+                    onPressed: () {
+                      InvestmentServices.invest(
+                          ref: ref,
+                          context: context,
+                          researchCenterId: 'iut2n40t0284yt',
+                          researchCenterName: 'test center',
+                          investment: _amountController.text as int);
+                    },
+                    child: Text('Invest'))
                 : ElevatedButton.icon(
                     onPressed: _authenticate,
                     icon: Icon(Icons.lock),

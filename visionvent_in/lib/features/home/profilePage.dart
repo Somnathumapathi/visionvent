@@ -35,38 +35,38 @@ class ProfilePage extends ConsumerWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text("Name: ${user!.name}"),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text("email: ${user!.email}"),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          Text("Domains:"),
+          const Text("Domains:"),
           GridView.builder(
               shrinkWrap: true,
               itemCount: user.domains.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 5, mainAxisSpacing: 0),
               itemBuilder: (context, index) {
                 final data = user.domains[index];
                 final randomColor = allowedColors[index % allowedColors.length];
 
                 return Chip(
-                  padding: EdgeInsets.all(1),
+                  padding: const EdgeInsets.all(1),
                   label: Text(
                     data,
-                    style: TextStyle(fontSize: 10, color: Colors.white),
+                    style: const TextStyle(fontSize: 10, color: Colors.white),
                   ),
                   backgroundColor: randomColor,
                   side: BorderSide.none,
                 );
               }),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           ElevatedButton(
@@ -74,10 +74,12 @@ class ProfilePage extends ConsumerWidget {
                 AuthService.signOut();
 
                 Navigator.popUntil(context, (route) => false);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SigninPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SigninPage()));
               },
-              child: Text('Sign out'))
+              child: const Text('Sign out'))
         ]),
       ),
     );

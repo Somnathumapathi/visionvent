@@ -13,6 +13,7 @@ class InvestmentServices {
       {required WidgetRef ref,
       required BuildContext context,
       required String researchCenterId,
+      required String researchCenterName,
       required int investment}) async {
     final user = ref.read(currentUserProvider).user;
     final res = await http.post(Uri.parse('$uri/api/mobile/addInvestment'),
@@ -21,8 +22,17 @@ class InvestmentServices {
           "code": "q!w@e#rt%y^u&",
           "investorId": user!.id,
           "researchCenterId": researchCenterId,
+          "researchCenterName": researchCenterName,
           "investedAmount": investment,
+          "returns": investment,
         }));
-    httpHandler(res: res, context: context, onSuccess: () {});
+    httpHandler(
+        res: res,
+        context: context,
+        onSuccess: () {
+          final data = jsonDecode(res.body);
+          final investments = data['investorInvestments'];
+          ref.read(currentUserProvider).setInvestments(investments);
+        });
   }
 }
