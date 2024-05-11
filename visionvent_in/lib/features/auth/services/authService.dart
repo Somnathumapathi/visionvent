@@ -129,4 +129,8 @@ class AuthService {
       }
     }
   }
+
+  static void signOut() {
+    FirebaseAuth.instance.signOut();
+  }
 }
