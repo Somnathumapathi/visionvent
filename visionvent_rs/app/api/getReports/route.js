@@ -7,31 +7,39 @@ export async function POST(request) {
 
     if (body.code !== "q!w@e#rt%y^u&")
         return NextResponse.json({
-            message: "Authentication required!!"
+            msg: "Authentication required!!"
         }, {
-            status: 401
+            status: 400
         })
 
     const reportIds = body.reportIDs;
 
     if (reportIds.length === 0) {
         return NextResponse.json({
-            message: "No reports found!!"
+            msg: "No reports found!!"
         }, {
-            status: 404
+            status: 400
         })
     }
 
     let reports
 
-    reportIds.map(async (rid) => {
-        const report = await Report.find({ _id: rid })
-        reports.push(report)
-    })
-    return NextResponse.json({
-        reports
-    },{
-        status:201
-    })
-    
+    try {
+        reportIds.map(async (rid) => {
+            const report = await Report.find({ _id: rid })
+            reports.push(report)
+        })
+        return NextResponse.json({
+            reports
+        }, {
+            status: 200
+        })
+    } catch (error) {
+        return NextResponse.json({
+            error: error.message
+        }, {
+            status: 500
+        })
+    }
+
 }

@@ -9,7 +9,7 @@ export async function POST(request) {
             return NextResponse.json({
                 message: "Authentication required!!!"
             }, {
-                status: 401
+                status: 400
             })
         }
     }
@@ -23,13 +23,13 @@ export async function POST(request) {
             message: "Report created successfully",
             result: result
         }, {
-            status: 201
+            status: 200
         })
     } catch (error) {
         return NextResponse.json({
             error: error.message
         }, {
-            status: 400
+            status: 500
         })
     }
 }
