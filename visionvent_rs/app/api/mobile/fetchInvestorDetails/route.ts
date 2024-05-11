@@ -10,9 +10,10 @@ export async function POST(req:any) {
     if(body.code !== "q!w@e#rt%y^u&")
         return NextResponse.json({"msg" : "No access"}, {status:400})
     
-    const db = await connectToDb()
+    await connectToDb()
 
     let investor = await Investor.findOne({ uid: body.uid })
+    console.log(investor.domains)
     if(!investor)
         return NextResponse.json({msg: "User does not exist, Singup first"},{status:400})
     
