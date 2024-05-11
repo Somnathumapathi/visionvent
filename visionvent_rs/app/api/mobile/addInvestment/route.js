@@ -14,7 +14,7 @@ export async function POST(request) {
             return NextResponse.json({
                 message: "Authentication required!!!"
             }, {
-                status: 401
+                status: 400
             })
         }
     }
@@ -24,35 +24,38 @@ export async function POST(request) {
     try {
         const newInvestment = await Investments.create({
             investorId: body.investorId,
-            companyId: body.researchCenterId,
+            researchCenterId: body.researchCenterId,
             investedAmount: body.investedAmount,
         })
 
-        let investorInvestments = (await Investor.findOne({ _id: body.companyId })).investments;
+        let investorInvestments = (await Investor.findOne({ _id: body.investorId })).investments;
+
+        let totalInvestment = (await Investor.findOne({ _id: body.investorId })).totalInvestment;
+
+        totalInvestment += body.investedAmount
 
         investorInvestments.push({ investmentId: newInvestment._id })
 
-        let companyInvestments = (await ResearchCenter.findOne({ _id: body.companyId })).investments;
+        let companyInvestments = (await ResearchCenter.findOne({ _id: body.researchCenterId })).investments;
 
         companyInvestments.push({ investmentId: newInvestment })
 
-        const updatedRCM = await ResearchCenter.findOneAndUpdate({ _id: companyId }, { $set: { investments: companyInvestments } }, { new: true })
+        const updatedRCM = await ResearchCenter.findOneAndUpdate({ _id: body.researchCenterId }, { $set: { investments: companyInvestments, totalInvestment: totalInvestment } }, { new: true })
 
-        const result = await Investor.findOneAndUpdate({ _id: customerId }, { $set: { investments: investorInvestments } }, { new: true })
-        const investorInvestmentsList = (await Investor.findById(customerId)).investments;
+        const result = await Investor.findOneAndUpdate({ _id: body.investorId }, { $set: { investments: investorInvestments } }, { new: true })
+        const investorInvestmentsList = (await Investor.findById(body.investorId)).investments;
 
         return NextResponse.json({
-            message: "Investment created successfully!!!",
             investorInvestments: investorInvestmentsList
         }, {
-            status: 201
+            status: 200
         })
 
     } catch (error) {
         return NextResponse.json({
             error: error.message
         }, {
-            status: 400
+            status: 500
         })
     }
 
