@@ -26,11 +26,7 @@ const investorSchema = mongoose.Schema({
     },
     domains : {
         trim: true,
-        type: [{
-            domains: {
-                type: String
-            }}
-        ],
+        type: Array,
     }
 })
 
