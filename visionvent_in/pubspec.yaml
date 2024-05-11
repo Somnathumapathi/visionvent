@@ -37,6 +37,14 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.17.8
   firebase_core: ^2.27.0
+  neopop: ^1.0.2
+  http: ^1.2.0
+  riverpod: ^2.5.1
+  flutter_riverpod: ^2.5.1
+  shared_preferences: ^2.2.3
+  carousel_slider: ^4.2.1
+  fl_chart: ^0.68.0
+  local_auth: ^2.1.8
 
 dev_dependencies:
   flutter_test:
