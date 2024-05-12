@@ -22,21 +22,21 @@ export async function POST(request) {
             status: 400
         })
     let investments = []
-    try {
-        investmentIds.map(async (iid) => {
-            const investment = await Investments.find({ _id: iid })
-            investments.push(investment)
-        })
-        return NextResponse.json({
-            investments: investments,
-        }, {
-            status: 200
-        })
-    } catch (error) {
-        return NextResponse.json({
-            error: error.message
-        }, {
-            status: 500
-        })
-    }
+    try{
+    investmentIds.map(async (iid) => {
+        const investment = await Investments.find({ _id: iid })
+        investments.push(investment)
+    })
+    return NextResponse.json({
+        investments: investments,
+    }, {
+        status: 200
+    })
+} catch(error) {
+    return NextResponse.json({
+        error: error.message
+    },{
+        status:500
+    })
+}
 }
