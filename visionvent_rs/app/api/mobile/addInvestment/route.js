@@ -40,7 +40,7 @@ export async function POST(request) {
         // let total = 0
         const total = totalI + body.investedAmount
 
-        const wallet = investor.walletAmt
+        let wallet = investor.walletAmt
         wallet = wallet - body.investedAmount
 
         // console.log(temp.walletAmt)
