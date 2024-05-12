@@ -7,7 +7,7 @@ export async function POST(request) {
     if (body.code) {
         if (body.code !== "q1w2e3r4t5y6u7") {
             return NextResponse.json({
-                message: "Authentication required!!!"
+                msg: "Authentication required!!!"
             }, {
                 status: 400
             })
@@ -23,7 +23,7 @@ export async function POST(request) {
             domains: body.domains
         })
         return NextResponse.json({
-            message: "Research Center created successfully",
+            msg: "Research Center created successfully",
             result: result
         }, {
             status: 200
