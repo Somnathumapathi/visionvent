@@ -30,25 +30,31 @@ export async function POST(request) {
             returns: body.returns,
         })
 
-        let investorInvestments = (await Investor.findOne({ _id: body.investorId })).investments;
+        const investor = await Investor.findOne({ _id: body.investorId });
+        const investorInvestments = investor.investments
         investorInvestments.push({ investmentId: newInvestment._id })
 
         // Calculating total investments for the research center
-        let totalInvestment = (await Investor.findOne({ _id: body.investorId })).totalInvestment;
-        totalInvestment += body.investedAmount
+        let totalI = {...investor}['_doc']['totalInvestment']
+        // let totalI = temp.totalInvestment
+        // let total = 0
+        const total = totalI + body.investedAmount
+
+        // console.log(temp.walletAmt)
 
 
         let companyInvestments = (await ResearchCenter.findOne({ _id: body.researchCenterId })).investments;
 
         companyInvestments.push({ investmentId: newInvestment })
 
-        const updatedRCM = await ResearchCenter.findOneAndUpdate({ _id: body.researchCenterId }, { $set: { investments: companyInvestments, totalInvestment: totalInvestment } }, { new: true })
+        const updatedRCM = await ResearchCenter.findOneAndUpdate({ _id: body.researchCenterId }, { $set: { investments: companyInvestments, totalInvestment: totalI } }, { new: true })
 
-        const result = await Investor.findOneAndUpdate({ _id: body.investorId }, { $set: { investments: investorInvestments } }, { new: true })
+        const result = await Investor.findOneAndUpdate({ _id: body.investorId }, { $set: { investments: investorInvestments, totalInvestment: total } }, { new: true })
         const investorInvestmentsList = (await Investor.findById(body.investorId)).investments;
 
         return NextResponse.json({
-            investorInvestments: investorInvestmentsList
+            investorInvestments: investorInvestmentsList,
+            totalInvestment: total,
         }, {
             status: 200
         })

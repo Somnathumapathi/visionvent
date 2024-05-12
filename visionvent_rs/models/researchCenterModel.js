@@ -43,6 +43,7 @@ const researchCenterSchema = new mongoose.Schema({
     totalInvestment: {
         type: Number,
         required: false,
+        default: 0
     },
     totalResources: {
         type: Array,

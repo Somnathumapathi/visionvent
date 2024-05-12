@@ -16,6 +16,11 @@ const investorSchema = mongoose.Schema({
         trim: true,
         type: String,
     },
+    totalInvestment: {
+        type: Number,
+        default: 0,
+        required: true,
+    },
     investments : {
         trim: true,
         type: [{
