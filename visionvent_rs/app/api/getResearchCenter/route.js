@@ -14,20 +14,8 @@ export async function POST(request) {
         }
     }
     try {
-        const result = await ResearchCenter.create({
-            name: body.name,
-            description: body.description,
-            // researchers: body.researchers
-            investmentNeeded: body.investmentNeeded,
-            totalResources: body.totalResources,
-            domains: body.domains
-        })
-        return NextResponse.json({
-            msg: "Research Center created successfully",
-            result: result
-        }, {
-            status: 200
-        })
+        const result = await ResearchCenter.findOne({ uid: body.uid })
+        return NextResponse.json({ result }, { status: 200 })
     } catch (error) {
         return NextResponse.json({
             error: error.message

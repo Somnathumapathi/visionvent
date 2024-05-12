@@ -25,16 +25,18 @@ export async function POST(request) {
         const newInvestment = await Investments.create({
             investorId: body.investorId,
             researchCenterId: body.researchCenterId,
+            researchCenterName: body.researchCenterName,
             investedAmount: body.investedAmount,
+            returns: body.returns,
         })
 
         let investorInvestments = (await Investor.findOne({ _id: body.investorId })).investments;
+        investorInvestments.push({ investmentId: newInvestment._id })
 
+        // Calculating total investments for the research center
         let totalInvestment = (await Investor.findOne({ _id: body.investorId })).totalInvestment;
-
         totalInvestment += body.investedAmount
 
-        investorInvestments.push({ investmentId: newInvestment._id })
 
         let companyInvestments = (await ResearchCenter.findOne({ _id: body.researchCenterId })).investments;
 
