@@ -10,10 +10,17 @@ const page = () => {
   const [reports, setReports] = useState([]);
 
   useEffect(() => {
-    axios
-      .get('/api/getReports')
+
+    const body = {
+      code: "q!w@e#rt%y^u&",
+      reportIds: [
+        '66407eeced33ac0ef31bc3dc'
+      ]
+    }
+
+    const res = axios.post('/api/getReports', JSON.stringify(body))
       .then((response) => {
-        setReports(response.data.data);
+        setReports(response.data);
       })
       .catch((error) => {
         console.log(error);

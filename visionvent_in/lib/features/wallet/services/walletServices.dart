@@ -18,11 +18,14 @@ class WalletServices {
           headers: {'Content-Type': 'application/json; charset=UTF-8'},
           body: jsonEncode(
               {"code": "q!w@e#rt%y^u&", "id": id, "rechargeAmt": rechargeAmt}));
+      print(jsonEncode(
+          {"code": "q!w@e#rt%y^u&", "id": id, "rechargeAmt": rechargeAmt}));
       httpHandler(
           res: res,
           context: context,
           onSuccess: () {
             final data = jsonDecode(res.body);
+            print(data);
             final amt = data['amt'];
             print(amt);
             ref.read(currentUserProvider).rechargeWallet(amt);

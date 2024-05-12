@@ -50,7 +50,7 @@ class AuthService {
           httpHandler(
               res: res,
               context: context,
-              onSuccess: () {
+              onSuccess: () async {
                 final data = jsonDecode(res.body);
                 print("kyufrkuhwrbf - $data");
                 final investor = Investor(
@@ -70,7 +70,12 @@ class AuthService {
                   walletAmt: data["walletAmt"] as int,
                 );
                 print('rrrrr');
+                final SharedPreferences pref =
+                    await SharedPreferences.getInstance();
+                await pref.setString('uid', uid);
                 ref.read(currentUserProvider).setUser(investor);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
               });
         }
       } else {
@@ -120,7 +125,7 @@ class AuthService {
                       .map((x) => x.toString())
                       .cast<String>()
                       .toList(),
-                  walletAmt: data['walletAmt'] as int);
+                  walletAmt: 0);
               print('rrrrr');
               final SharedPreferences pref =
                   await SharedPreferences.getInstance();

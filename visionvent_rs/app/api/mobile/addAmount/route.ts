@@ -7,8 +7,8 @@ export async function POST(req:any) {
         if(body.code !== "q!w@e#rt%y^u&")
             return NextResponse.json({"msg" : "No access"}, {status:400})
         let user = await Investor.findOne({_id: body.id})
-        if(!user.walletAmt)
-            return NextResponse.json({user}, {status:400})
+        // if(!user.walletAmt)
+        //     return NextResponse.json({msg: "No wallet"}, {status:400})
         let rechargeAmt = body.rechargeAmt
         if(!rechargeAmt)
             return NextResponse.json({"msg" : "No recharge amount"}, {status:400})

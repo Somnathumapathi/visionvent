@@ -5,6 +5,9 @@ import 'package:visionvent_in/features/home/myPortfolio.dart';
 import 'package:visionvent_in/features/home/profilePage.dart';
 import 'package:visionvent_in/features/home/services/fetchInDetails.dart';
 import 'package:visionvent_in/features/researchCenter/screens/researchCenterDetails.dart';
+import 'package:visionvent_in/features/researchCenter/services/researchCenter.dart';
+import 'package:visionvent_in/models/researchCenter.dart';
+import 'package:visionvent_in/providers/userProvider.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -26,10 +29,10 @@ class _HomePageState extends ConsumerState<HomePage> {
               CarouselSlider(
                 items: [
                   Image.network(
-                      'https://media.slidesgo.com/storage/18949018/conversions/0-planet-mars-thumb.jpg',
+                      'https://www.talk-business.co.uk/wp-content/uploads/2020/06/AdobeStock_302181503.jpg',
                       fit: BoxFit.cover),
                   Image.network(
-                      'https://cdn.mos.cms.futurecdn.net/BoTkdfxo9ehAPQG3qMdRxZ.jpg',
+                      'https://altum.com/wp-content/uploads/2022/10/Altum_Article2_Assets.jpg',
                       fit: BoxFit.cover),
                   Image.network(
                       'https://imgix.bustle.com/uploads/image/2020/4/20/4f0e4ffe-434d-421c-8221-f00ac8213df2-ee1a587a-34a4-4d4d-b4d4-61a7d4faadab-shutterstock-1470652997.jpg?w=1200&h=630&fit=crop&crop=faces&fm=jpg',
@@ -62,15 +65,18 @@ class _HomePageState extends ConsumerState<HomePage> {
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
-                    itemCount: 5,
+                    itemCount: rC!.length,
                     itemBuilder: (context, index) {
+                      final _rC = rC![index];
                       return InkWell(
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      ResearchCenterDetailsScreen()));
+                                      ResearchCenterDetailsScreen(
+                                        researchCenter: _rC,
+                                      )));
                         },
                         child: Container(
                           margin: EdgeInsets.all(10),
@@ -87,8 +93,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 fit: BoxFit.cover,
                                 height: 150,
                               ),
-                              Text("Research Center Name"),
-                              Text("Domains")
+                              Text(_rC.researchCenterName),
+                              // ListView.builder(
+                              //     itemCount: ref
+                              //         .read(currentUserProvider)
+                              //         .user!
+                              //         .domains
+                              //         .length,
+                              //     itemBuilder: ((context, index) {}))
                             ],
                           ),
                         ),
@@ -102,7 +114,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Top research Centers'),
-                    TextButton(onPressed: () {}, child: Text('See all'))
+                    TextButton(
+                        onPressed: () {
+                          ResearchCenterServices.fetchResearchCenters(
+                              ref: ref, context: context);
+                        },
+                        child: Text('See all'))
                   ],
                 ),
               ),
@@ -111,10 +128,19 @@ class _HomePageState extends ConsumerState<HomePage> {
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
-                    itemCount: 5,
+                    itemCount: rC!.length,
                     itemBuilder: (context, index) {
+                      final _rC = rC![index];
                       return InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ResearchCenterDetailsScreen(
+                                        researchCenter: _rC,
+                                      )));
+                        },
                         child: Container(
                           margin: EdgeInsets.all(10),
                           decoration: BoxDecoration(
@@ -130,14 +156,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 fit: BoxFit.cover,
                                 height: 150,
                               ),
-                              Text("Research Center Name"),
+                              Text(_rC.researchCenterName),
                               Text("Domains")
                             ],
                           ),
                         ),
                       );
                     }),
-              )
+              ),
             ],
           ),
         ),
@@ -149,14 +175,22 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   var _screenIdx = 1;
+  List<ResearchCenter>? rC;
 
   fetchInvestor() async {
     HomeServices.fetchInvestorDetails(ref: ref, context: context);
   }
 
+  fetchRc() async {
+    rC = await ResearchCenterServices.fetchResearchCenters(
+        ref: ref, context: context);
+    setState(() {});
+  }
+
   @override
   void initState() {
     fetchInvestor();
+    fetchRc();
     super.initState();
   }
 
@@ -168,7 +202,9 @@ class _HomePageState extends ConsumerState<HomePage> {
       appBar: AppBar(
         title: const Text('VisionVent'),
       ),
-      body: getBody(screenWidth, screenHeight),
+      body: rC != null
+          ? getBody(screenWidth, screenHeight)
+          : Center(child: CircularProgressIndicator()),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
@@ -179,13 +215,13 @@ class _HomePageState extends ConsumerState<HomePage> {
               label: 'Profile'),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.person,
+                Icons.home,
                 // color: Colors.white,
               ),
               label: 'Home'),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.person,
+                Icons.folder_shared_rounded,
                 // color: Colors.white,
               ),
               label: 'My Portfolio')

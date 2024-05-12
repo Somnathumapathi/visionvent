@@ -74,6 +74,7 @@ class ProfilePage extends ConsumerWidget {
           const SizedBox(
             height: 10,
           ),
+          // Text(user.investments.toString()),
           ElevatedButton(
               onPressed: () {
                 AuthService.signOut();

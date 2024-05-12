@@ -2,12 +2,27 @@
 import React, { useState } from 'react';
 import NavBar from '../../../components/Researcher/NavBar';
 import axios from 'axios';
+import { getSession } from '../../auth/actions';
 
 const AddReport = () => {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [report, setReport] = useState('');
+
+  let session
+  const loadSession = async() => {
+    session = await getSession()
+  }
+ 
+  useEffect(() => {
+    loadSession().then(()=>{
+      if(session && session.email){
+        
+      }
+    })
+  }, [])
+  
 
   const handleAddReport = (event) => {
     event.preventDefault();
@@ -19,7 +34,7 @@ const AddReport = () => {
 
   const result = () => {
     axios
-      .post('/api/getReports', report)
+      .post('/api/addReports', report)
       .then(()=>{Navigate('/Researcher/ViewReports')})
       .catch((error) => {
         alert("error!!");

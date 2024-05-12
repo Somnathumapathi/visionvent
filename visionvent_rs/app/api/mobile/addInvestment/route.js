@@ -31,6 +31,13 @@ export async function POST(request) {
         })
 
         const investor = await Investor.findOne({ _id: body.investorId });
+        if(investor.walletAmt < 1){
+            return NextResponse.json({
+                msg: "Insufficient balance!"
+            },{
+                status: 400
+            })
+        }
         const investorInvestments = investor.investments
         investorInvestments.push({ investmentId: newInvestment._id })
 
@@ -45,12 +52,17 @@ export async function POST(request) {
 
         // console.log(temp.walletAmt)
 
+        let researchCenter = await ResearchCenter.findOne({ _id: body.researchCenterId })
 
-        let companyInvestments = (await ResearchCenter.findOne({ _id: body.researchCenterId })).investments;
+        let currentI = {...researchCenter}['_doc']['totalInvestment']
+
+        currentI = currentI + body.investedAmount;
+
+        let companyInvestments = researchCenter.investments;
 
         companyInvestments.push({ investmentId: newInvestment })
 
-        const updatedRCM = await ResearchCenter.findOneAndUpdate({ _id: body.researchCenterId }, { $set: { investments: companyInvestments, totalInvestment: totalI } }, { new: true })
+        const updatedRCM = await ResearchCenter.findOneAndUpdate({ _id: body.researchCenterId }, { $set: { investments: companyInvestments, totalInvestment: currentI } }, { new: true })
 
         const result = await Investor.findOneAndUpdate({ _id: body.investorId }, { $set: { investments: investorInvestments, totalInvestment: total, walletAmt: wallet } }, { new: true })
         const investorInvestmentsList = (await Investor.findById(body.investorId)).investments;
