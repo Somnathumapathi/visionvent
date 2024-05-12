@@ -1,0 +1,28 @@
+.image{
+    background-image: url('/images/logo.png');
+    background-size: cover;
+    height: 50px;
+    width: 50px;
+}
+.test{
+    cursor: pointer;
+    position: relative;
+    /* font-size: 72px;
+    margin: 100px auto; */
+}
+.test::after{
+    content:"";
+    position:absolute;
+    bottom:-5px;
+    height: 4px;
+    width:100%;
+    left:0;
+    background-color: white;
+    transition: 0.3s;
+    transition-timing-function: ease-in-out;
+    transform: scaleX(0);
+}
+
+.test:hover::after{
+    transform: scaleX(1);
+}

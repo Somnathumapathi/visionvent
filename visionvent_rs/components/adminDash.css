@@ -1,0 +1,13 @@
+.admin-wel{
+    animation-duration: 1s;
+    animation-name: slidein;
+}
+
+@keyframes slidein{
+    0%{
+        margin-left: 25%;
+    }
+    100%{
+        margin-left: 0%;
+    }
+}
