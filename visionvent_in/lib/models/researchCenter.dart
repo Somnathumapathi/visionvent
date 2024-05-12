@@ -8,7 +8,7 @@ class ResearchCenter {
   final List<dynamic> researchPapers;
   final int investmentNeeded;
   final List<dynamic> totalResources;
-  final int currentInvestment;
+  final int totalInvestment;
   final List<dynamic> domains;
 
   ResearchCenter(
@@ -18,7 +18,7 @@ class ResearchCenter {
       required this.researchPapers,
       required this.investmentNeeded,
       required this.totalResources,
-      required this.currentInvestment,
+      required this.totalInvestment,
       required this.domains});
 
   Map<String, dynamic> toMap() {
@@ -29,7 +29,7 @@ class ResearchCenter {
       'researchPapers': researchPapers,
       'investmentNeeded': investmentNeeded,
       'totalResources': totalResources,
-      'currentInvestment': currentInvestment,
+      'currentInvestment': totalInvestment,
       'domains': domains,
     };
   }
@@ -45,7 +45,7 @@ class ResearchCenter {
       investmentNeeded: map['investmentNeeded'] as int,
       totalResources:
           List<dynamic>.from((map['totalResources'] as List<dynamic>)),
-      currentInvestment: map['currentInvestment'] as int,
+      totalInvestment: map['totalInvestment'] as int,
       domains: List<dynamic>.from(
         (map['domains'] as List<dynamic>),
       ),

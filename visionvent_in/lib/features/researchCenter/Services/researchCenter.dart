@@ -21,9 +21,10 @@ class ResearchCenterServices {
 
       final List<dynamic> data = jsonDecode(res.body);
       print(data);
+      print("uuuuuuuuuuuuuuuuuuuuuuu");
       final List<ResearchCenter> researchCenters =
           data.map((r) => ResearchCenter.fromMap(r)).toList();
-
+      print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuu$researchCenters");
       return researchCenters;
     } catch (e) {
       showSnackBar(context, e.toString());

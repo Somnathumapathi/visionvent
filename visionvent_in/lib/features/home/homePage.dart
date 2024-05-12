@@ -23,148 +23,152 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
     if (_screenIdx == 1) {
       return Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              CarouselSlider(
-                items: [
-                  Image.network(
-                      'https://www.talk-business.co.uk/wp-content/uploads/2020/06/AdobeStock_302181503.jpg',
-                      fit: BoxFit.cover),
-                  Image.network(
-                      'https://altum.com/wp-content/uploads/2022/10/Altum_Article2_Assets.jpg',
-                      fit: BoxFit.cover),
-                  Image.network(
-                      'https://imgix.bustle.com/uploads/image/2020/4/20/4f0e4ffe-434d-421c-8221-f00ac8213df2-ee1a587a-34a4-4d4d-b4d4-61a7d4faadab-shutterstock-1470652997.jpg?w=1200&h=630&fit=crop&crop=faces&fm=jpg',
-                      fit: BoxFit.cover),
-                ],
-                options: CarouselOptions(
-                  height: 200.0,
-                  enlargeCenterPage: true,
-                  autoPlay: true,
-                  aspectRatio: 2.0,
-                  enableInfiniteScroll: true,
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('My suggestions'),
-                    TextButton(onPressed: () {}, child: Text('See all'))
+        body: RefreshIndicator(
+          onRefresh: fetchRc,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                CarouselSlider(
+                  items: [
+                    Image.network(
+                        'https://www.talk-business.co.uk/wp-content/uploads/2020/06/AdobeStock_302181503.jpg',
+                        fit: BoxFit.cover),
+                    Image.network(
+                        'https://altum.com/wp-content/uploads/2022/10/Altum_Article2_Assets.jpg',
+                        fit: BoxFit.cover),
+                    Image.network(
+                        'https://imgix.bustle.com/uploads/image/2020/4/20/4f0e4ffe-434d-421c-8221-f00ac8213df2-ee1a587a-34a4-4d4d-b4d4-61a7d4faadab-shutterstock-1470652997.jpg?w=1200&h=630&fit=crop&crop=faces&fm=jpg',
+                        fit: BoxFit.cover),
                   ],
+                  options: CarouselOptions(
+                    height: 200.0,
+                    enlargeCenterPage: true,
+                    autoPlay: true,
+                    aspectRatio: 2.0,
+                    enableInfiniteScroll: true,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 250,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: rC!.length,
-                    itemBuilder: (context, index) {
-                      final _rC = rC![index];
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ResearchCenterDetailsScreen(
-                                        researchCenter: _rC,
-                                      )));
-                        },
-                        child: Container(
-                          margin: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 228, 223, 223),
-                              // border: Border.all(),
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 300,
-                          width: 200,
-                          child: Column(
-                            children: [
-                              Image.network(
-                                'https://mir-s3-cdn-cf.behance.net/projects/404/ea6e31148808649.Y3JvcCw0OTAxLDM4MzQsOTEwLDA.jpg',
-                                fit: BoxFit.cover,
-                                height: 150,
-                              ),
-                              Text(_rC.researchCenterName),
-                              // ListView.builder(
-                              //     itemCount: ref
-                              //         .read(currentUserProvider)
-                              //         .user!
-                              //         .domains
-                              //         .length,
-                              //     itemBuilder: ((context, index) {}))
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Top research Centers'),
-                    TextButton(
-                        onPressed: () {
-                          ResearchCenterServices.fetchResearchCenters(
-                              ref: ref, context: context);
-                        },
-                        child: Text('See all'))
-                  ],
+                SizedBox(
+                  height: 10,
                 ),
-              ),
-              SizedBox(
-                height: 250,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: rC!.length,
-                    itemBuilder: (context, index) {
-                      final _rC = rC![index];
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ResearchCenterDetailsScreen(
-                                        researchCenter: _rC,
-                                      )));
-                        },
-                        child: Container(
-                          margin: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 228, 223, 223),
-                              // border: Border.all(),
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 300,
-                          width: 200,
-                          child: Column(
-                            children: [
-                              Image.network(
-                                'https://mir-s3-cdn-cf.behance.net/projects/404/ea6e31148808649.Y3JvcCw0OTAxLDM4MzQsOTEwLDA.jpg',
-                                fit: BoxFit.cover,
-                                height: 150,
-                              ),
-                              Text(_rC.researchCenterName),
-                              Text("Domains")
-                            ],
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('My suggestions'),
+                      TextButton(onPressed: () {}, child: Text('See all'))
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 250,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: rC!.length,
+                      itemBuilder: (context, index) {
+                        final _rC = rC![index];
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ResearchCenterDetailsScreen(
+                                          researchCenter: _rC,
+                                        )));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 228, 223, 223),
+                                // border: Border.all(),
+                                borderRadius: BorderRadius.circular(10)),
+                            height: 310,
+                            width: 200,
+                            child: Column(
+                              children: [
+                                Image.network(
+                                  'https://mir-s3-cdn-cf.behance.net/projects/404/ea6e31148808649.Y3JvcCw0OTAxLDM4MzQsOTEwLDA.jpg',
+                                  fit: BoxFit.cover,
+                                  height: 150,
+                                ),
+                                Text(_rC.researchCenterName),
+                                Text(_rC.domains.toString())
+                                // ListView.builder(
+                                //     itemCount: ref
+                                //         .read(currentUserProvider)
+                                //         .user!
+                                //         .domains
+                                //         .length,
+                                //     itemBuilder: ((context, index) {}))
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    }),
-              ),
-            ],
+                        );
+                      }),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Top research Centers'),
+                      TextButton(
+                          onPressed: () {
+                            ResearchCenterServices.fetchResearchCenters(
+                                ref: ref, context: context);
+                          },
+                          child: Text('See all'))
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 250,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: rC!.length,
+                      itemBuilder: (context, index) {
+                        final _rC = rC![index];
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ResearchCenterDetailsScreen(
+                                          researchCenter: _rC,
+                                        )));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 228, 223, 223),
+                                // border: Border.all(),
+                                borderRadius: BorderRadius.circular(10)),
+                            height: 300,
+                            width: 200,
+                            child: Column(
+                              children: [
+                                Image.network(
+                                  'https://mir-s3-cdn-cf.behance.net/projects/404/ea6e31148808649.Y3JvcCw0OTAxLDM4MzQsOTEwLDA.jpg',
+                                  fit: BoxFit.cover,
+                                  height: 150,
+                                ),
+                                Text(_rC.researchCenterName),
+                                Text(_rC.domains.toString())
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+              ],
+            ),
           ),
         ),
       );
@@ -181,9 +185,10 @@ class _HomePageState extends ConsumerState<HomePage> {
     HomeServices.fetchInvestorDetails(ref: ref, context: context);
   }
 
-  fetchRc() async {
+  Future<void> fetchRc() async {
     rC = await ResearchCenterServices.fetchResearchCenters(
         ref: ref, context: context);
+    print("---------------$rC");
     setState(() {});
   }
 

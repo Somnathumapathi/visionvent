@@ -11,9 +11,9 @@ class ResearchCenterDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    final per = ((researchCenter.currentInvestment) /
-            (researchCenter.investmentNeeded)) *
-        100;
+    final per =
+        ((researchCenter.totalInvestment) / (researchCenter.investmentNeeded)) *
+            100;
     return Scaffold(
       appBar: AppBar(title: Text('Research center')),
       body: SingleChildScrollView(
