@@ -1,17 +1,32 @@
 "use client";
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 // import { useRouter } from 'next/navigation';
 import { auth } from '../../lib/firebase/firebase';
 // import { AuthContext, useAuth } from '../contexts/authContext';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { login } from '../auth/actions';
+import { getSession, login } from '../auth/actions';
+import { useRouter } from 'next/navigation';
 
 const page = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [role, setRole] = useState('researcher')
-    // const router = useRouter();
+    // const [role, setRole] = useState('researcher')
+    const router = useRouter();
+    let session;
+    const loadSession = async () => {
+        session = await getSession();
+    }
+
+    useEffect(() => {
+        loadSession().then(() =>
+            console.log(session))
+            .then(() => {
+                if (session && session.uid) {
+                    router.push("/");
+                }
+            })
+    }, [])
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -23,10 +38,6 @@ const page = () => {
             const result = await signInWithEmailAndPassword(auth, email, password)
             await login(result.user.email, result.user.uid)
             console.log(result)
-            const newUser = {
-                uid: result.user.uid,
-                email: result.user.email
-            }
             // await setUser(newUser)
             // router.push("/")
         } catch (error) {
@@ -49,7 +60,7 @@ const page = () => {
                         className='border-2 border-green-800 rounded-lg p-2 text-lg'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)} required />
-                    <div className='flex justify-center items-center gap-5'>
+                    {/* <div className='flex justify-center items-center gap-5'>
                         <div>
                             <input type='radio' id="researcher" name="login" value="researcher" checked onChange={e => setRole(e.target.value)} />
                             <label htmlFor='researcher'>Researcher</label>
@@ -58,7 +69,7 @@ const page = () => {
                             <input type='radio' id="admin" name="login" value="admin" onChange={e => setRole(e.target.value)} />
                             <label htmlFor='admin'>Admin</label>
                         </div>
-                    </div>
+                    </div> */}
                     <button type='submit' className='w-1/2 border-2 p-2 rounded-lg border-black'>Sign-In</button>
                 </form>
             </div>
