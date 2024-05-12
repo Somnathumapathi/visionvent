@@ -1,9 +1,11 @@
 "use client";
 import axios from 'axios';
-import React, { useContext, useState } from 'react'
-import { auth } from '@/libs/firebase/firebase';
+import React, { useEffect, useState } from 'react'
+import { auth } from '../../lib/firebase/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { AuthContext } from '../contexts/authContext';
+// import { AuthContext } from '../contexts/authContext';
+import { useRouter } from 'next/navigation';
+import { getSession } from '../auth/actions';
 
 const page = () => {
 
@@ -11,11 +13,26 @@ const page = () => {
   const [password, setPassword] = useState('')
   const [role, setRole] = useState('researcher')
 
-  const value = useContext(AuthContext)
+  const router = useRouter();
+  let session;
+  const loadSession = async () => {
+    session = await getSession();
+  }
+
+  useEffect(() => {
+    loadSession().then(() =>
+      console.log(session))
+      .then(() => {
+        if (session && session.uid) {
+          router.push("/");
+        }
+      })
+  }, [])
+
 
   const handleSignUp = async (e) => {
     e.preventDefault()
-    if (!email || !password) {
+    if (!email || !password || !role) {
       alert("Please fill all the fields")
       return
     }
@@ -50,7 +67,7 @@ const page = () => {
           className='border-2 border-green-800 rounded-lg p-2 text-lg'
           value={password}
           onChange={(e) => setPassword(e.target.value)} required />
-        <div className='flex justify-center items-center gap-5'>
+        {/* <div className='flex justify-center items-center gap-5'>
           <div>
             <input type='radio' id="researcher" name="login" value="researcher" checked onChange={e => setRole(e.target.value)} />
             <label htmlFor='researcher'>Researcher</label>
@@ -59,7 +76,7 @@ const page = () => {
             <input type='radio' id="admin" name="login" value="admin" onChange={e => setRole(e.target.value)} />
             <label htmlFor='admin'>Admin</label>
           </div>
-        </div>
+        </div> */}
         <button type='submit' className='w-1/2 border-2 p-2 rounded-lg border-black'>Sign-In</button>
       </form>
     </div>

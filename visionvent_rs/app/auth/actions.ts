@@ -6,9 +6,10 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
 export const getSession = async() => {
+    
     const session = await getIronSession<SessionData>(cookies(),sessionOptions);
 
-    if(!session.isLoggedIn){
+    if(!session.isLoggedIn || !session){
         session.isLoggedIn = defaultSession.isLoggedIn;
     }
 

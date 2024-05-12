@@ -11,27 +11,30 @@ export default function Home() {
 
   const router = useRouter();
   let session;
-  const loadSession = async() => {
-   session = await getSession();
+  const loadSession = async () => {
+    session = await getSession();
   }
 
   // const value = useContext(AuthContext)
-  
+
   useEffect(() => {
-    
-    if (!session || !session.uid) {
-      router.push("/login");
-    }
-    loadSession();
-    if(!session || !session.isLoggedIn)
-      redirect("/SignIn")
-    
+
+    loadSession().then(() =>
+      console.log(session)).then(() => {
+
+        if (!session || !session.uid) {
+          router.push("/SignIn");
+        }
+        if (!session || !session.isLoggedIn)
+          redirect("/SignIn");
+      })
+
   }, [])
-  
+
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      HELLO {session?.email? session.email: '' }
+      HELLO {session?.email ? session.email : ''}
     </main>
   );
 }
