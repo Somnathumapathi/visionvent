@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visionvent_in/features/auth/screens/signinPage.dart';
 import 'package:visionvent_in/features/auth/services/authService.dart';
+import 'package:visionvent_in/features/wallet/screens/walletScreen.dart';
 import 'package:visionvent_in/providers/userProvider.dart';
+import 'dart:math' as math;
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -10,6 +12,14 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(currentUserProvider).user;
+    final List<Color> allowedColors = [
+      Colors.red,
+      Colors.green,
+      Colors.blue,
+      Colors.orange,
+      Colors.purple,
+      Colors.yellow,
+    ];
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [
@@ -26,19 +36,42 @@ class ProfilePage extends ConsumerWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text("Name: ${user!.name}"),
-          SizedBox(
+          const SizedBox(
+            height: 10,
+          ),
+          Text("Wallet Balance: ₹${user!.walletAmt}"),
+          const SizedBox(
             height: 10,
           ),
           Text("email: ${user!.email}"),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          Text("Domains: ${user!.domains}"),
-          SizedBox(
+          const Text("Domains:"),
+          GridView.builder(
+              shrinkWrap: true,
+              itemCount: user.domains.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 5, mainAxisSpacing: 0),
+              itemBuilder: (context, index) {
+                final data = user.domains[index];
+                final randomColor = allowedColors[index % allowedColors.length];
+
+                return Chip(
+                  padding: const EdgeInsets.all(1),
+                  label: Text(
+                    data,
+                    style: const TextStyle(fontSize: 10, color: Colors.white),
+                  ),
+                  backgroundColor: randomColor,
+                  side: BorderSide.none,
+                );
+              }),
+          const SizedBox(
             height: 10,
           ),
           ElevatedButton(
@@ -46,11 +79,20 @@ class ProfilePage extends ConsumerWidget {
                 AuthService.signOut();
 
                 Navigator.popUntil(context, (route) => false);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SigninPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SigninPage()));
               },
-              child: Text('Sign out'))
+              child: const Text('Sign out'))
         ]),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const WalletScreen()));
+        },
+        child: Icon(Icons.wallet),
       ),
     );
   }

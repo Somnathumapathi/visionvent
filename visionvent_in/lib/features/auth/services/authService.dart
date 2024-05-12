@@ -18,7 +18,8 @@ class AuthService {
       required String name,
       required String email,
       required String password,
-      required List<String> domains}) async {
+      required List<String> domains,
+      required int walletAmt}) async {
     try {
       if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
         final UserCredential userCred = await FirebaseAuth.instance
@@ -35,7 +36,8 @@ class AuthService {
                 "email": email,
                 "password": password,
                 "investments": [],
-                "domains": domains
+                "domains": domains,
+                "walletAmt": walletAmt
               }));
           print(jsonEncode({
             "code": "q!w@e#rt%y^u&",
@@ -65,6 +67,7 @@ class AuthService {
                       .map((x) => x.toString())
                       .cast<String>()
                       .toList(),
+                  walletAmt: data["walletAmt"] as int,
                 );
                 print('rrrrr');
                 ref.read(currentUserProvider).setUser(investor);
@@ -104,20 +107,20 @@ class AuthService {
               final data = jsonDecode(res.body);
               print("kyufrkuhwrbf - $data");
               final investor = Investor(
-                id: data['_id'],
-                uid: data["uid"],
-                name: data["name"],
-                email: data["email"],
-                investments: data["investments"]
-                    .map((x) => x.toString())
-                    .toList()
-                    .cast<String>()
-                    .toList(),
-                domains: data["domains"]
-                    .map((x) => x.toString())
-                    .cast<String>()
-                    .toList(),
-              );
+                  id: data['_id'],
+                  uid: data["uid"],
+                  name: data["name"],
+                  email: data["email"],
+                  investments: data["investments"]
+                      .map((x) => x.toString())
+                      .toList()
+                      .cast<String>()
+                      .toList(),
+                  domains: data["domains"]
+                      .map((x) => x.toString())
+                      .cast<String>()
+                      .toList(),
+                  walletAmt: data['walletAmt'] as int);
               print('rrrrr');
               final SharedPreferences pref =
                   await SharedPreferences.getInstance();

@@ -27,6 +27,10 @@ const investorSchema = mongoose.Schema({
     domains : {
         trim: true,
         type: Array,
+    },
+    walletAmt : {
+        trim: true,
+        type: Number,
     }
 })
 
