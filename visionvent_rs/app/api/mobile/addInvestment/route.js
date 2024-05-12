@@ -40,6 +40,9 @@ export async function POST(request) {
         // let total = 0
         const total = totalI + body.investedAmount
 
+        const wallet = investor.walletAmt
+        wallet = wallet - body.investedAmount
+
         // console.log(temp.walletAmt)
 
 
@@ -49,7 +52,7 @@ export async function POST(request) {
 
         const updatedRCM = await ResearchCenter.findOneAndUpdate({ _id: body.researchCenterId }, { $set: { investments: companyInvestments, totalInvestment: totalI } }, { new: true })
 
-        const result = await Investor.findOneAndUpdate({ _id: body.investorId }, { $set: { investments: investorInvestments, totalInvestment: total } }, { new: true })
+        const result = await Investor.findOneAndUpdate({ _id: body.investorId }, { $set: { investments: investorInvestments, totalInvestment: total, walletAmt: wallet } }, { new: true })
         const investorInvestmentsList = (await Investor.findById(body.investorId)).investments;
 
         return NextResponse.json({
