@@ -5,8 +5,12 @@ const investmentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    companyId: {
+    researchCenterId: {
         type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    researchCenterName:{
+        type: String,
         required: true
     },
     investedAmount: {
