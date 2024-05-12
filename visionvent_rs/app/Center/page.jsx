@@ -23,7 +23,7 @@ const page = () => {
 
         <div className='mybgyum'>
             <NavBar />
-            <div className='pt-16 h-full'>
+            <div className='pt-16 h-screen'>
                 <div className=" bg-gray-100 mx-48 my-4" style={{ height: '96%' }}>
                     <h1 className='text-5xl items-center text-center pt-12 font-bold'>Research Center Name</h1>
                     <div className='flex'>

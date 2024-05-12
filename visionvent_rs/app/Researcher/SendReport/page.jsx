@@ -46,7 +46,7 @@ const AddReport = () => {
   return (
     <div className='researcherbg'>
       <NavBar />
-      <div className='flex flex-col justify-center items-center min-h-screen'>
+      <div className='flex flex-col justify-center items-center h-screen'>
         <form onSubmit={handleAddReport} className='w-full max-w-md bg-white rounded-xl p-6'>
           <div className='mb-8'>
             <h2 className='text-3xl font-semibold mb-4 text-center'>Add Report</h2>

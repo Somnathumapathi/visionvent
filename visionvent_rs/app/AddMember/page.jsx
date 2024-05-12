@@ -35,7 +35,7 @@ const Page = () => {
 //   }
 
   return (
-    <div>
+    <div className='h-screen'>
       <NavBar />
       <div className='pt-16 mybgyum min-h-screen flex flex-col justify-center items-center'>
           <div className='bg-white w-96 h-96  rounded-lg'>

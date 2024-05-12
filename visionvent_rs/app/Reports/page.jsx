@@ -31,7 +31,7 @@ const page = () => {
   return (
     <div>
       <NavBar />
-      <div className='pt-16 mybgyum h-full'>
+      <div className='pt-16 mybgyum h-screen'>
         <div className=" bg-gray-100 mx-48 my-4" style={{ height: '96%' }}>
           <div className='flex justify-center text-center items-center gap-8 pt-12'>
             <h1 className='text-5xl items-center text-center font-bold'>Reports</h1>
