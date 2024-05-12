@@ -10,6 +10,7 @@ class Investor {
   final String email;
   final List<String> investments;
   final List<String> domains;
+  final int walletAmt;
 
   Investor(
       {required this.id,
@@ -17,7 +18,8 @@ class Investor {
       required this.name,
       required this.email,
       required this.investments,
-      required this.domains});
+      required this.domains,
+      required this.walletAmt});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -38,6 +40,7 @@ class Investor {
       email: map['email'].toString(),
       investments: map['investments'],
       domains: map['domains'],
+      walletAmt: map['walletAmt'],
     );
   }
 
@@ -53,14 +56,15 @@ class Investor {
     String? email,
     List<String>? investments,
     List<String>? domains,
+    int? walletAmt,
   }) {
     return Investor(
-      id: id ?? this.id,
-      uid: uid ?? this.uid,
-      name: name ?? this.name,
-      email: email ?? this.email,
-      investments: investments ?? this.investments,
-      domains: domains ?? this.domains,
-    );
+        id: id ?? this.id,
+        uid: uid ?? this.uid,
+        name: name ?? this.name,
+        email: email ?? this.email,
+        investments: investments ?? this.investments,
+        domains: domains ?? this.domains,
+        walletAmt: walletAmt ?? this.walletAmt);
   }
 }

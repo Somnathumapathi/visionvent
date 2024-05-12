@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visionvent_in/features/auth/screens/signinPage.dart';
 import 'package:visionvent_in/features/auth/services/authService.dart';
+import 'package:visionvent_in/features/wallet/screens/walletScreen.dart';
 import 'package:visionvent_in/providers/userProvider.dart';
 import 'dart:math' as math;
 
@@ -39,6 +40,10 @@ class ProfilePage extends ConsumerWidget {
             height: 10,
           ),
           Text("Name: ${user!.name}"),
+          const SizedBox(
+            height: 10,
+          ),
+          Text("Wallet Balance: ₹${user!.walletAmt}"),
           const SizedBox(
             height: 10,
           ),
@@ -81,6 +86,13 @@ class ProfilePage extends ConsumerWidget {
               },
               child: const Text('Sign out'))
         ]),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const WalletScreen()));
+        },
+        child: Icon(Icons.wallet),
       ),
     );
   }

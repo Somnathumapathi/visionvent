@@ -14,6 +14,12 @@ class CurrentUserNotifier extends ChangeNotifier {
 
   setInvestments(List<String> investmenst) {
     user = user!.copyWith(investments: investmenst);
+    notifyListeners();
+  }
+
+  rechargeWallet(int amt) {
+    user = user!.copyWith(walletAmt: amt);
+    notifyListeners();
   }
 }
 

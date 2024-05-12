@@ -116,7 +116,8 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                               name: _nameController.text,
                               email: _emailController.text,
                               password: _passwordController.text,
-                              domains: []);
+                              domains: [],
+                              walletAmt: 0);
                         },
                         child: Text('Register')),
                     // NeoPopTiltedButton(

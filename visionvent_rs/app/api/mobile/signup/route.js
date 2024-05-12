@@ -20,7 +20,8 @@ export async function POST(req) {
         name: body.name,
         email: body.email,
         investments: body.investments,
-        domains: body.domains
+        domains: body.domains,
+        walletAmt: body.walletAmt,
     })
     investor = await investor.save()
     return NextResponse.json(investor, {status:200})

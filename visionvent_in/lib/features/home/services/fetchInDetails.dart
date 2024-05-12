@@ -28,20 +28,20 @@ class HomeServices {
           final data = jsonDecode(res.body);
           print("kyufrkuhwrbf - $data");
           final investor = Investor(
-            id: data['_id'],
-            uid: data["uid"],
-            name: data["name"],
-            email: data["email"],
-            investments: data["investments"]
-                .map((x) => x.toString())
-                .toList()
-                .cast<String>()
-                .toList(),
-            domains: data["domains"]
-                .map((x) => x.toString())
-                .cast<String>()
-                .toList(),
-          );
+              id: data['_id'],
+              uid: data["uid"],
+              name: data["name"],
+              email: data["email"],
+              investments: data["investments"]
+                  .map((x) => x.toString())
+                  .toList()
+                  .cast<String>()
+                  .toList(),
+              domains: data["domains"]
+                  .map((x) => x.toString())
+                  .cast<String>()
+                  .toList(),
+              walletAmt: data['walletAmt'] as int);
           print('rrrrr');
           ref.read(currentUserProvider).setUser(investor);
         });
