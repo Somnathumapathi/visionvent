@@ -57,7 +57,7 @@ export async function POST(request) {
 
         return NextResponse.json({
             investorInvestments: investorInvestmentsList,
-            totalInvestment: total,
+            walletBalance: wallet,
         }, {
             status: 200
         })
