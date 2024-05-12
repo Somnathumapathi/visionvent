@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:visionvent_in/features/researchCenter/Services/investmentServices.dart';
+import 'package:visionvent_in/models/researchCenter.dart';
 import 'package:visionvent_in/widgets/textField.dart';
 
 class InvestPage extends ConsumerStatefulWidget {
-  const InvestPage({super.key});
+  const InvestPage({
+    super.key,
+    required this.researchCenter,
+  });
+
+  final ResearchCenter researchCenter;
 
   @override
   ConsumerState<InvestPage> createState() => _InvestPageState();
@@ -61,9 +67,10 @@ class _InvestPageState extends ConsumerState<InvestPage> {
                       InvestmentServices.invest(
                           ref: ref,
                           context: context,
-                          researchCenterId: 'iut2n40t0284yt',
-                          researchCenterName: 'test center',
-                          investment: _amountController.text as int);
+                          researchCenterId: widget.researchCenter.id,
+                          researchCenterName:
+                              widget.researchCenter.researchCenterName,
+                          investment: int.parse(_amountController.text));
                     },
                     child: Text('Invest'))
                 : ElevatedButton.icon(

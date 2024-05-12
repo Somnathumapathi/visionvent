@@ -14,21 +14,23 @@ export async function POST(request) {
             }, {
                 status: 400
             })
-    const investmentIds = body.investments;
-    if (investmentIds.length === 0)
-        return NextResponse.json({
-            msg: "No investments found!!!"
-        }, {
-            status: 400
-        })
-    let investments = []
+    // const investor = body.investorId;
+    // if (investmentIds.length === 0)
+    //     return NextResponse.json({
+    //         msg: "No investments found!!!"
+    //     }, {
+    //         status: 400
+    //     })
     try {
-        investmentIds.map(async (iid) => {
-            const investment = await Investments.find({ _id: iid })
-            investments.push(investment)
-        })
+        // let investmentsList = []
+        // investmentIds.map(async (iid) => {
+        //     const investment = await Investments.find({ investmentId: iid })
+        //     investmentsList.push(investment)
+        // })
+        const investments = await Investments.find({ investorId: body.investorId })
+        console.log(investments);
         return NextResponse.json({
-            investments: investments,
+            investments,
         }, {
             status: 200
         })

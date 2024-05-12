@@ -27,8 +27,8 @@ class Investment {
 
   factory Investment.fromMap(Map<String, dynamic> map) {
     return Investment(
-        id: map['id'] as String,
-        amount: map['amount'] as int,
+        id: map['_id'] as String,
+        amount: map['investedAmount'] as int,
         researchCenterId: map['researchCenterId'] as String,
         returns: map['returns'] as int,
         researchCenterName: map['researchCenterName'] as String);

@@ -5,7 +5,7 @@ export async function POST(request) {
     const body = await request.json();
 
     if (body.code) {
-        if (body.code !== "q!w@e#rt%y^u&") {
+        if (body.code !== "q1w2e3r4t5y6u7") {
             return NextResponse.json({
                 message: "Authentication required!!!"
             }, {

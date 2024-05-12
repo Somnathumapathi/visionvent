@@ -15,6 +15,8 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   final _emailController = TextEditingController();
   final _ps = TextEditingController();
   final _passwordController = TextEditingController();
+  final _domainController = TextEditingController();
+  List<String> domains = [];
 
   @override
   void dispose() {
@@ -28,134 +30,172 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Card(
-              color: Colors.black,
-              //elevation: 8.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Enter Your Details',
-                      style: Theme.of(context)
-                          .textTheme
-                          .displayLarge!
-                          .copyWith(color: Colors.white, fontSize: 25),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                        hintText: 'Enter Username',
-                        hintStyle: TextStyle(
-                          color: Colors.white.withAlpha(100),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Card(
+                color: Colors.black,
+                //elevation: 8.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Enter Your Details',
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayLarge!
+                            .copyWith(color: Colors.white, fontSize: 25),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter Username',
+                          hintStyle: TextStyle(
+                            color: Colors.white.withAlpha(100),
+                          ),
+                        ),
+                        style: const TextStyle(
+                          color: Colors.white,
                         ),
                       ),
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        hintText: 'Enter e-mail',
-                        hintStyle: TextStyle(
-                          color: Colors.white.withAlpha(100),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter e-mail',
+                          hintStyle: TextStyle(
+                            color: Colors.white.withAlpha(100),
+                          ),
+                        ),
+                        style: const TextStyle(
+                          color: Colors.white,
                         ),
                       ),
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      controller: _ps,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        hintText: 'password',
-                        hintStyle: TextStyle(
-                          color: Colors.white.withAlpha(100),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: _ps,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: 'password',
+                          hintStyle: TextStyle(
+                            color: Colors.white.withAlpha(100),
+                          ),
+                        ),
+                        style: const TextStyle(
+                          color: Colors.white,
                         ),
                       ),
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    TextFormField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        hintText: 'confirm password',
-                        hintStyle: TextStyle(
-                          color: Colors.white.withAlpha(100),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: 'confirm password',
+                          hintStyle: TextStyle(
+                            color: Colors.white.withAlpha(100),
+                          ),
+                        ),
+                        style: const TextStyle(
+                          color: Colors.white,
                         ),
                       ),
-                      style: const TextStyle(
-                        color: Colors.white,
+                      SizedBox(
+                        height: 50,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: _domainController,
+                                decoration: InputDecoration(
+                                  hintText: 'Enter domains',
+                                  hintStyle: TextStyle(
+                                    color: Colors.white.withAlpha(100),
+                                  ),
+                                ),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  if (_domainController.text.isNotEmpty)
+                                    domains.add(_domainController.text);
+                                  _domainController.clear();
+                                  setState(() {});
+                                },
+                                icon: Icon(Icons.add))
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        domains.toString(),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                          onPressed: () {
+                            AuthService.signUp(
+                                ref: ref,
+                                context: context,
+                                name: _nameController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                                domains: domains,
+                                walletAmt: 0);
+                          },
+                          child: Text('Register')),
+                      // NeoPopTiltedButton(
+                      //   color: const Color.fromARGB(255, 10, 56, 12),
+                      //   onTapUp: () => authController.registerUser(
+                      //       _usernamecontroller.text,
+                      //       _emailcontroller.text,
+                      //       _passwordcontroller.text),
+                      // child: const Padding(
+                      //   padding: EdgeInsets.symmetric(
+                      //     horizontal: 50.0,
+                      //     vertical: 12,
+                      //   ),
+                      //   child: Text(
+                      //     'Register',
+                      //     style: TextStyle(
+                      //       fontWeight: FontWeight.bold,
+                      //     ),
+                      //   ),
+                      // ),
+                      // ),
+                      TextButton(
                         onPressed: () {
-                          AuthService.signUp(
-                              ref: ref,
-                              context: context,
-                              name: _nameController.text,
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                              domains: [],
-                              walletAmt: 0);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SigninPage()));
                         },
-                        child: Text('Register')),
-                    // NeoPopTiltedButton(
-                    //   color: const Color.fromARGB(255, 10, 56, 12),
-                    //   onTapUp: () => authController.registerUser(
-                    //       _usernamecontroller.text,
-                    //       _emailcontroller.text,
-                    //       _passwordcontroller.text),
-                    // child: const Padding(
-                    //   padding: EdgeInsets.symmetric(
-                    //     horizontal: 50.0,
-                    //     vertical: 12,
-                    //   ),
-                    //   child: Text(
-                    //     'Register',
-                    //     style: TextStyle(
-                    //       fontWeight: FontWeight.bold,
-                    //     ),
-                    //   ),
-                    // ),
-                    // ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SigninPage()));
-                      },
-                      child: const Text(
-                        'Already have an account? Login',
-                        style: TextStyle(color: Colors.blue),
+                        child: const Text(
+                          'Already have an account? Login',
+                          style: TextStyle(color: Colors.blue),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
